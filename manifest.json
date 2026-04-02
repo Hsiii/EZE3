@@ -1,9 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "EZE3",
+  "name": "__MSG_extName__",
   "version": "1.0.0",
-  "description": "Premium browser automation for NYCU Portal. Easy access, zero friction.",
-  "permissions": ["storage"],
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
+  "permissions": ["storage", "tabs"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none';"
+  },
   "options_page": "options.html",
   "icons": {
     "16": "icons/icon16.png",
