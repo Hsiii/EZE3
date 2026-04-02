@@ -34,7 +34,7 @@
 
     function monitorFor2FA() {
         log('Monitoring for security verification...');
-        const observer = new MutationObserver((mutations) => {
+        const observer = new MutationObserver(() => {
             const otpPatterns = ['#otp', '[name="otp"]', 'input[placeholder*="驗證碼"]', 'input[placeholder*="OTP"]', 'input[placeholder*="Code"]'];
             
             for (const pattern of otpPatterns) {
@@ -42,6 +42,7 @@
                 if (otpField) {
                     log('2FA required. Awaiting user input...');
                     otpField.focus();
+                    observer.disconnect(); // Stop observing once 2FA field found
                     return;
                 }
             }
@@ -64,15 +65,22 @@
         if (currentHash === '#/links/nycu') {
             log('Locating New E3 redirect...');
             const e3LinkSelector = 'a[href="#/redirect/newe3p"]';
+            let redirectFired = false; // Guard against double-fire
             
             const clickAndClose = (element) => {
+                if (redirectFired) return;
+                redirectFired = true;
                 log('Redirecting to E3 now...');
                 element.click();
                 
                 // After clicking, close this portal tab since it's no longer needed
                 log('Job completed. Closing original portal tab...');
                 setTimeout(() => {
-                    chrome.runtime.sendMessage({ action: 'close_tab' });
+                    chrome.runtime.sendMessage({ action: 'close_tab' }, () => {
+                        if (chrome.runtime.lastError) {
+                            log('Tab close message failed:', chrome.runtime.lastError.message);
+                        }
+                    });
                 }, 1000); 
             };
 
@@ -99,11 +107,10 @@
                 handlePostLogin();
             }
             monitorFor2FA();
+            // Support SPAs - only register when credentials are present
+            window.addEventListener('hashchange', handlePostLogin);
         } else {
             log('Automation engine active. Please configure student credentials in the options.');
         }
     });
-
-    // Support SPAs by listening to hash changes
-    window.addEventListener('hashchange', handlePostLogin);
 })();
