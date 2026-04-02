@@ -6,6 +6,7 @@
 - **Auto-Login**: Effortlessly fill and submit your NYCU portal credentials.
 - **Smart Redirection**: Automatically navigates to the New E3 links page after login.
 - **Legacy Path Redirect**: Instantly redirects legacy `e3p.nycu.edu.tw` login attempts to the modern NYCU Portal.
+- **Tab Optimization**: Automatically closes the portal tab after successfully launching New E3.
 - **2FA Focus**: Automatically detects and focuses on the verification code input when required.
 - **Privacy-First**: No data is sent to external servers. Your credentials stay in your browser's local storage.
 

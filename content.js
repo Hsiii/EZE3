@@ -65,22 +65,28 @@
             log('Locating New E3 redirect...');
             const e3LinkSelector = 'a[href="#/redirect/newe3p"]';
             
-            const clickE3 = (element) => {
+            const clickAndClose = (element) => {
                 log('Redirecting to E3 now...');
                 element.click();
+                
+                // After clicking, close this portal tab since it's no longer needed
+                log('Job completed. Closing original portal tab...');
+                setTimeout(() => {
+                    chrome.runtime.sendMessage({ action: 'close_tab' });
+                }, 1000); 
             };
 
             const e3LinkObserver = new MutationObserver(() => {
                 const e3Link = document.querySelector(e3LinkSelector);
                 if (e3Link) {
-                    clickE3(e3Link);
+                    clickAndClose(e3Link);
                     e3LinkObserver.disconnect();
                 }
             });
             e3LinkObserver.observe(document.body, { childList: true, subtree: true });
 
             const initialE3Link = document.querySelector(e3LinkSelector);
-            if (initialE3Link) clickE3(initialE3Link);
+            if (initialE3Link) clickAndClose(initialE3Link);
         }
     }
 
