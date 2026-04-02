@@ -11,7 +11,10 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://portal.nycu.edu.tw/*"],
+      "matches": [
+        "https://portal.nycu.edu.tw/*",
+        "https://e3p.nycu.edu.tw/login/index.php*"
+      ],
       "js": ["content.js"],
       "run_at": "document_idle"
     }

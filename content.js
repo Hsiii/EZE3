@@ -1,8 +1,15 @@
 // EZE3 | Premium Portal Automation Content Script
 
 (function() {
-    const DEBUG = false; // Set to false for public release
+    const DEBUG = false;
     const log = (...args) => DEBUG && console.log('[EZE3]', ...args);
+
+    // 1. Redirect if we are on the legacy E3 login page
+    if (window.location.hostname === 'e3p.nycu.edu.tw' && window.location.pathname.includes('/login/index.php')) {
+        log('Legacy login detected. Redirecting to NYCU Portal...');
+        window.location.href = 'https://portal.nycu.edu.tw/';
+        return;
+    }
 
     function fillLogin(username, password) {
         const accountField = document.querySelector('#account');
@@ -46,14 +53,14 @@
     function handlePostLogin() {
         const currentHash = window.location.hash;
         
-        // 1. Dashboard redirection
+        // Dashboard redirection
         const isDashboard = currentHash === '' || currentHash === '#/' || currentHash === '#/home';
         if (!document.querySelector('#account') && isDashboard) {
             log('Session detected. Navigating to E3...');
             window.location.hash = '#/links/nycu';
         }
 
-        // 2. Automated link picking on the transition page
+        // Automated link picking on the transition page
         if (currentHash === '#/links/nycu') {
             log('Locating New E3 redirect...');
             const e3LinkSelector = 'a[href="#/redirect/newe3p"]';
