@@ -3,14 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const saveBtn = document.getElementById('save');
-    const messageContainer = document.getElementById('message');
+    const messageEl = document.getElementById('message');
 
     const showMessage = (text, type = 'success') => {
-        messageContainer.textContent = text;
-        messageContainer.className = `message ${type}`;
-        messageContainer.style.display = 'block';
+        messageEl.textContent = text;
+        messageEl.className = `message ${type} show`;
         setTimeout(() => {
-            messageContainer.style.display = 'none';
+            messageEl.classList.remove('show');
         }, 3000);
     };
 
@@ -30,21 +29,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = passwordInput.value.trim();
 
         if (!username || !password) {
-            showMessage('Please enter both student ID and portal password.', 'error');
+            showMessage('MISSING FIELDS', 'error');
             return;
         }
 
         // Add visual feedback
         saveBtn.disabled = true;
-        saveBtn.textContent = 'Deploying...';
+        const originalText = saveBtn.textContent;
+        saveBtn.textContent = 'Saving...';
 
         chrome.storage.local.set({
             nycu_username: username,
             nycu_password: password
         }, () => {
-            showMessage('Credentials deployed successfully!');
+            showMessage('Saved!', 'success');
             saveBtn.disabled = false;
-            saveBtn.textContent = 'Deploy Credentials';
+            saveBtn.textContent = originalText;
         });
     });
 
