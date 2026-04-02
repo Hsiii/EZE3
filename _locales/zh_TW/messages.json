@@ -4,15 +4,15 @@
     "description": "Extension name"
   },
   "extDescription": {
-    "message": "NYCU 入口網站的優質瀏覽器自動化工具，輕鬆存取，零阻力。",
+    "message": "陽明交大E3平台自動登入工具，支援從入口網站及E3登入頁面自動登入並重新導向至E3。",
     "description": "Extension description"
   },
   "pageTitle": {
-    "message": "EZE3 | 安全存取",
+    "message": "EZE3 | 帳號設定",
     "description": "Options page title"
   },
   "subtitle": {
-    "message": "NYCU 入口網站安全存取",
+    "message": "NYCU 帳號設定",
     "description": "Subtitle below the logo"
   },
   "labelUsername": {

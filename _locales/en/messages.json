@@ -4,15 +4,15 @@
     "description": "Extension name"
   },
   "extDescription": {
-    "message": "Premium browser automation for NYCU Portal. Easy access, zero friction.",
+    "message": "A browser extension for easy access to E3, the NYCU learning platform.",
     "description": "Extension description"
   },
   "pageTitle": {
-    "message": "EZE3 | Secure Access",
+    "message": "EZE3 | User Settings",
     "description": "Options page title"
   },
   "subtitle": {
-    "message": "Secure NYCU Portal Access",
+    "message": "NYCU Portal Settings",
     "description": "Subtitle below the logo"
   },
   "labelUsername": {
