@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EZE3 | Secure Access</title>
+  <title data-i18n="pageTitle">EZE3 | Secure Access</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    /* System font stack — avoids external network requests and CSP issues */
 
     :root {
       --primary: rgb(241, 168, 86);
@@ -30,7 +30,7 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     }
 
     .container {
@@ -167,19 +167,19 @@
   <div class="container">
     <header>
       <h1>EZE3</h1>
-      <p class="subtitle">Secure NYCU Portal Access</p>
+      <p class="subtitle" data-i18n="subtitle">Secure NYCU Portal Access</p>
     </header>
 
     <div class="form-control">
       <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" placeholder="Portal Account" autocomplete="off">
+        <label for="username" data-i18n="labelUsername">Username</label>
+        <input type="text" id="username" data-i18n-placeholder="placeholderUsername" placeholder="Portal Account" autocomplete="off">
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Portal Password">
+        <label for="password" data-i18n="labelPassword">Password</label>
+        <input type="password" id="password" data-i18n-placeholder="placeholderPassword" placeholder="Portal Password" autocomplete="new-password">
       </div>
-      <button id="save" class="btn">Save Locally</button>
+      <button id="save" class="btn" data-i18n="btnSave">Save Locally</button>
     </div>
 
     <div class="message-container">

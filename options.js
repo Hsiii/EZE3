@@ -1,5 +1,33 @@
 // EZE3 | Premium Portal Automation Configuration
+
+/** Shorthand for chrome.i18n.getMessage */
+const t = (key) => chrome.i18n.getMessage(key) || key;
+
+/** Apply translations to all [data-i18n] and [data-i18n-placeholder] elements */
+function applyI18n() {
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        const msg = t(key);
+        if (msg) {
+            if (el.tagName === 'TITLE') {
+                document.title = msg;
+            } else {
+                el.textContent = msg;
+            }
+        }
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        const msg = t(key);
+        if (msg) el.placeholder = msg;
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Apply translations first
+    applyI18n();
+
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const saveBtn = document.getElementById('save');
@@ -26,23 +54,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // Save credentials with validation
     saveBtn.addEventListener('click', () => {
         const username = usernameInput.value.trim();
-        const password = passwordInput.value.trim();
+        const password = passwordInput.value; // Don't trim — passwords may have intentional leading/trailing spaces
 
         if (!username || !password) {
-            showMessage('MISSING FIELDS', 'error');
+            showMessage(t('msgMissingFields'), 'error');
             return;
         }
 
         // Add visual feedback
         saveBtn.disabled = true;
         const originalText = saveBtn.textContent;
-        saveBtn.textContent = 'Saving...';
+        saveBtn.textContent = t('btnSaving');
 
         chrome.storage.local.set({
             nycu_username: username,
             nycu_password: password
         }, () => {
-            showMessage('Saved!', 'success');
+            if (chrome.runtime.lastError) {
+                showMessage(t('msgSaveFailed'), 'error');
+                saveBtn.disabled = false;
+                saveBtn.textContent = originalText;
+                return;
+            }
+            showMessage(t('msgSaved'), 'success');
             saveBtn.disabled = false;
             saveBtn.textContent = originalText;
         });

@@ -1,0 +1,54 @@
+{
+  "extName": {
+    "message": "EZE3",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "NYCU 入口網站的優質瀏覽器自動化工具，輕鬆存取，零阻力。",
+    "description": "Extension description"
+  },
+  "pageTitle": {
+    "message": "EZE3 | 安全存取",
+    "description": "Options page title"
+  },
+  "subtitle": {
+    "message": "NYCU 入口網站安全存取",
+    "description": "Subtitle below the logo"
+  },
+  "labelUsername": {
+    "message": "帳號",
+    "description": "Username field label"
+  },
+  "labelPassword": {
+    "message": "密碼",
+    "description": "Password field label"
+  },
+  "placeholderUsername": {
+    "message": "入口帳號",
+    "description": "Username input placeholder"
+  },
+  "placeholderPassword": {
+    "message": "入口密碼",
+    "description": "Password input placeholder"
+  },
+  "btnSave": {
+    "message": "儲存至本機",
+    "description": "Save button text"
+  },
+  "btnSaving": {
+    "message": "儲存中…",
+    "description": "Save button text while saving"
+  },
+  "msgMissingFields": {
+    "message": "欄位未填寫",
+    "description": "Error when fields are empty"
+  },
+  "msgSaveFailed": {
+    "message": "儲存失敗！",
+    "description": "Error when storage write fails"
+  },
+  "msgSaved": {
+    "message": "已儲存！",
+    "description": "Success message after saving"
+  }
+}
