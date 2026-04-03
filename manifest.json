@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "__MSG_extDescription__",
   "default_locale": "en",
-  "permissions": ["storage", "tabs"],
+  "permissions": ["storage", "tabs", "windows"],
   "host_permissions": ["https://portal.nycu.edu.tw/*", "https://e3p.nycu.edu.tw/*"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'none';"

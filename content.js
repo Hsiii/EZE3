@@ -110,7 +110,12 @@
             // Support SPAs - only register when credentials are present
             window.addEventListener('hashchange', handlePostLogin);
         } else {
-            log('Automation engine active. Please configure student credentials in the options.');
+            log('No credentials found. Opening settings popup...');
+            chrome.runtime.sendMessage({ action: 'open_popup' }, () => {
+                if (chrome.runtime.lastError) {
+                    log('Failed to open popup:', chrome.runtime.lastError.message);
+                }
+            });
         }
     });
 })();
