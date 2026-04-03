@@ -168,17 +168,31 @@
                 nycu_username: username,
                 nycu_password: password
             }, () => {
-                updateBtn(chrome.i18n.getMessage('msgSavedInPage'), '#24a148'); // Success green
+                updateBtn(chrome.i18n.getMessage('msgSavedInPage')); // Keep orange
                 saveBtn.disabled = false;
                 
                 log('Credentials saved via in-page button.');
-                window.dispatchEvent(new Event('eze3_saved'));
+
+                // Register the post-login navigation handler BEFORE clicking login
+                // so the hashchange that follows is captured.
+                window.addEventListener('hashchange', handlePostLogin);
+                monitorFor2FA();
 
                 // Trigger login
                 setTimeout(() => {
-                    const loginBtn = document.querySelector('button.carbon-button--primary');
-                    if (loginBtn) loginBtn.click();
-                }, 1000);
+                    fillLogin(username, password);
+
+                    // hashchange alone is unreliable if the hash doesn't change after auth.
+                    // Watch for #account disappearing — that's the real signal login succeeded.
+                    const loginSuccessObserver = new MutationObserver(() => {
+                        if (!document.querySelector('#account')) {
+                            loginSuccessObserver.disconnect();
+                            log('Login form gone. Triggering post-login navigation...');
+                            handlePostLogin();
+                        }
+                    });
+                    loginSuccessObserver.observe(document.body, { childList: true, subtree: true });
+                }, 300);
             });
         };
 
@@ -233,8 +247,6 @@
         }
     });
 
-    // We export startAutomation to the button logic if needed, or simply call it after saving
-    // But since the button clicks the native button, the page will either reload or 
-    // trigger a hashchange. We should register the hashchange listener ASAP.
-    window.addEventListener('eze3_saved', startAutomation);
+    // hashchange listener is registered directly inside the save button callback
+    // on first save, so no global eze3_saved event listener is needed here.
 })();
