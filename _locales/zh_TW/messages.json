@@ -7,10 +7,6 @@
     "message": "陽明交大E3平台自動登入工具，支援從入口網站及E3登入頁面自動登入並重新導向至E3。",
     "description": "Extension description"
   },
-  "pageTitle": {
-    "message": "EZE3",
-    "description": "Popup title"
-  },
   "labelUsername": {
     "message": "帳號",
     "description": "Username field label"

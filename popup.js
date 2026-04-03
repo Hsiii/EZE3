@@ -9,11 +9,7 @@ function applyI18n() {
         const key = el.getAttribute('data-i18n');
         const msg = t(key);
         if (msg) {
-            if (el.tagName === 'TITLE') {
-                document.title = msg;
-            } else {
-                el.textContent = msg;
-            }
+            el.textContent = msg;
         }
     });
 

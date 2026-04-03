@@ -7,10 +7,6 @@
     "message": "A browser extension for easy access to E3, the NYCU learning platform.",
     "description": "Extension description"
   },
-  "pageTitle": {
-    "message": "EZE3",
-    "description": "Popup title"
-  },
   "labelUsername": {
     "message": "Username",
     "description": "Username field label"
