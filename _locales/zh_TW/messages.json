@@ -46,5 +46,13 @@
   "btnClose": {
     "message": "關閉",
     "description": "Close popup button text"
+  },
+  "btnSaveInPage": {
+    "message": "儲存至 EZE3",
+    "description": "Button to save credentials in-page"
+  },
+  "msgSavedInPage": {
+    "message": "帳密已儲存",
+    "description": "Success message in-page"
   }
 }

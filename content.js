@@ -98,6 +98,108 @@
         }
     }
 
+    function injectSaveButton() {
+        const buttonGroup = document.querySelector('.button-group');
+        if (!buttonGroup || document.querySelector('#eze3-save-btn')) return;
+
+        log('Injecting save button into portal...');
+
+        const saveBtn = document.createElement('button');
+        saveBtn.id = 'eze3-save-btn';
+        saveBtn.type = 'button';
+        // Apply base styles
+        saveBtn.style.cssText = `
+            background-color: #f1a856;
+            color: #0f172a;
+            border: none;
+            padding: 0 16px;
+            width: 100%;
+            height: 48px;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        `;
+
+        const updateBtn = (text, bgColor) => {
+            saveBtn.innerHTML = `
+                <span style="flex-grow: 1; text-align: left;">${text}</span>
+                <span style="display: flex; align-items: center; margin-left: 16px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v13a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                </span>
+            `;
+            if (bgColor) saveBtn.style.backgroundColor = bgColor;
+        };
+
+        // Initial render
+        updateBtn(chrome.i18n.getMessage('btnSaveInPage'));
+        
+        saveBtn.onmouseover = () => {
+            if (!saveBtn.disabled) {
+                saveBtn.style.backgroundColor = '#f5b86b';
+            }
+        };
+        saveBtn.onmouseout = () => {
+            if (!saveBtn.disabled) {
+                const isSuccess = saveBtn.style.backgroundColor === 'rgb(36, 161, 72)'; // #24a148
+                if (!isSuccess) saveBtn.style.backgroundColor = '#f1a856';
+            }
+        };
+
+        saveBtn.onclick = () => {
+            const usernameInput = document.querySelector('#account');
+            const passwordInput = document.querySelector('#password');
+            const username = usernameInput?.value.trim();
+            const password = passwordInput?.value;
+
+            if (!username || !password) {
+                updateBtn('MISSING FIELDS');
+                setTimeout(() => updateBtn(chrome.i18n.getMessage('btnSaveInPage')), 2000);
+                return;
+            }
+
+            saveBtn.disabled = true;
+            updateBtn(chrome.i18n.getMessage('btnSaving'));
+
+            chrome.storage.local.set({
+                nycu_username: username,
+                nycu_password: password
+            }, () => {
+                updateBtn(chrome.i18n.getMessage('msgSavedInPage'), '#24a148'); // Success green
+                saveBtn.disabled = false;
+                
+                log('Credentials saved via in-page button.');
+
+                // Trigger login
+                setTimeout(() => {
+                    const loginBtn = document.querySelector('button.carbon-button--primary');
+                    if (loginBtn) loginBtn.click();
+                }, 1000);
+            });
+        };
+
+        // Use a MutationObserver to ensure the button group is ready and hasn't been wiped by React
+        const observer = new MutationObserver(() => {
+            if (!document.querySelector('#eze3-save-btn')) {
+                const group = document.querySelector('.button-group');
+                if (group) group.prepend(saveBtn);
+            }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        // Initial attempt
+        buttonGroup.prepend(saveBtn);
+    }
+
     // Main deployment logic
     chrome.storage.local.get(['nycu_username', 'nycu_password'], (result) => {
         if (result.nycu_username && result.nycu_password) {
@@ -110,12 +212,19 @@
             // Support SPAs - only register when credentials are present
             window.addEventListener('hashchange', handlePostLogin);
         } else {
-            log('No credentials found. Opening settings popup...');
-            chrome.runtime.sendMessage({ action: 'open_popup' }, () => {
-                if (chrome.runtime.lastError) {
-                    log('Failed to open popup:', chrome.runtime.lastError.message);
-                }
-            });
+            log('No credentials found. Waiting for portal login UI...');
+            // Instead of opening a popup, we inject a helper button on the portal
+            if (document.querySelector('.button-group')) {
+                injectSaveButton();
+            } else {
+                const uiObserver = new MutationObserver((mutations, obs) => {
+                    if (document.querySelector('.button-group')) {
+                        injectSaveButton();
+                        obs.disconnect();
+                    }
+                });
+                uiObserver.observe(document.body, { childList: true, subtree: true });
+            }
         }
     });
 })();
