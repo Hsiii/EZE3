@@ -50,5 +50,9 @@
   "msgSaved": {
     "message": "Saved!",
     "description": "Success message after saving"
+  },
+  "btnClose": {
+    "message": "Close",
+    "description": "Close popup button text"
   }
 }

@@ -50,5 +50,9 @@
   "msgSaved": {
     "message": "已儲存！",
     "description": "Success message after saving"
+  },
+  "btnClose": {
+    "message": "關閉",
+    "description": "Close popup button text"
   }
 }
