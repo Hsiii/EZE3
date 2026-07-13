@@ -7,9 +7,6 @@
     "build": "rm -rf dist && mkdir -p dist && cd src && zip -r ../dist/EZE3.zip . -x '*.DS_Store'",
     "release": "release-it --config release-it.config.cjs"
   },
-  "dependencies": {
-    "lucide": "^1.7.0"
-  },
   "devDependencies": {
     "release-it": "^20.2.0"
   }

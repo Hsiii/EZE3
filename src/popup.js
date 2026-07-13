@@ -14,10 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let originalSaveText = t('btnSave');
     let isPasswordVisible = false;
 
-    if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.lucide.createIcons();
-    }
-
     const updatePasswordVisibility = () => {
         passwordInput.type = isPasswordVisible ? 'text' : 'password';
         togglePasswordBtn.dataset.visible = String(isPasswordVisible);

@@ -26,8 +26,35 @@
         aria-label="Show password"
         title="Show password"
       >
-        <i data-lucide="eye-closed" class="password-icon-show"></i>
-        <i data-lucide="eye" class="password-icon-hide"></i>
+        <svg
+          class="password-icon-show"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M2 8a10.645 10.645 0 0 0 20 0"></path>
+          <path d="m4 15 1.726-2.05"></path>
+          <path d="m9 18 .722-3.25"></path>
+          <path d="m15 18-.722-3.25"></path>
+          <path d="M20 15 18.274 12.95"></path>
+        </svg>
+        <svg
+          class="password-icon-hide"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
       </button>
     </div>
   </div>
@@ -39,7 +66,6 @@
     <button id="save" data-i18n="btnSave">Save</button>
   </div>
 
-  <script src="vendor/lucide.min.js"></script>
   <script src="i18n.js"></script>
   <script src="popup.js"></script>
 </body>
